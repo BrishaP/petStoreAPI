@@ -1,21 +1,10 @@
-// CRUD Operation: Update
-// RESTful Operation: Update an existing resource (update a pet)
-// Example URL: /pets/{id}
-// HTTP Method: PUT or PATCH
-
-// CRUD Operation: Delete
-// RESTful Operation: Delete an existing resource (delete a pet)
-// Example URL: /pets/{id}
-// HTTP Method: DELETE
-
+//import axioE Get request from s using ESModules import and export 
+import axios from 'axios';
 
 // CRUD Operation: Create
 // RESTful Operation: Create a new resource (pet)
 // Example URL: /pets
 // HTTP Method: POST
-  
-//import axioE Get request from s using ESModules import and export 
-import axios from 'axios';
 
 export async function addPet(pet) {
   try {
@@ -38,6 +27,36 @@ export async function getPetById(id) {
     return response.data;
   } catch (error) {
     console.error('Error retrieving pet:', error);
+    throw error;
+  }
+}
+
+// CRUD Operation: Update
+// RESTful Operation: Update an existing resource (update a pet)
+// Example URL: /pets/{id}
+// HTTP Method: PUT or PATCH
+
+export async function updatePetById(id, pet) {
+  try {
+    const response = await axios.put(`/pets/${id}`, pet);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating pet:', error);
+    throw error;
+  }
+}
+
+// CRUD Operation: Delete
+// RESTful Operation: Delete an existing resource (delete a pet)
+// Example URL: /pets/{id}
+// HTTP Method: DELETE
+
+export async function deletePetById(id) {
+  try {
+    const response = await axios.delete(`/pets/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting pet:', error);
     throw error;
   }
 }

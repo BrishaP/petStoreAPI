@@ -1,5 +1,5 @@
 import express from 'express';
-import { addPet ,getPetById } from './api/petAPI'
+import { addPet ,getPetById, updatePetById } from './api/petAPI.js'
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -53,7 +53,43 @@ app.get('/pet/:id', async (req, res) => {
     }
   });
 
+// PUT: Update a pet by ID
+app.put('/pet/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedPet = await updatePetById(id, req.body);
+  
+      if (!updatedPet) {
+        return res.status(404).json({ error: 'No pet with this ID found' });
+      }
+  
+      res.status(200).json(updatedPet);
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  });  
+
+  // DELETE: Delete a pet by ID
+app.delete('/pet/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedPet = await deletePetById(id);
+  
+      if (!deletedPet) {
+        return res.status(404).json({ error: 'No pet with this ID found' });
+      }
+  
+      res.status(200).json({ message: 'Pet deleted successfully' });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  });
   
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
+
