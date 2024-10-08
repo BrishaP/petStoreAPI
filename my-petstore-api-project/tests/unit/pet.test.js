@@ -15,7 +15,7 @@
 //-Update Pet (PUT)
 import { describe, expect, test, jest } from '@jest/globals';
 import axios from 'axios';
-import { addPet } from '../../src/api/petAPI';
+import { addPet ,getPetById } from '../../src/api/petAPI';
 // import petAPI from '../../src/api/petAPI.js';
 //Already testing the API directly
 jest.mock('axios');
@@ -46,7 +46,16 @@ test('POSTs and returns a pet with id: 12, name: test, and photoUrl: testURL', a
 // Example URL: /pets/{id}
 // HTTP Method: GET
 
+test('GETs a pet by id and returns the pet data', async () => {
+  const petId = 12;
+  const petData = { id: 12, name: 'test', status: 'available' };
+  axios.get.mockResolvedValue({ data: petData });
 
+  const result = await getPetById(petId);
+
+  expect(result).toEqual(petData);
+  expect(axios.get).toHaveBeenCalledWith(`/pets/${petId}`);
+});
 
 // CRUD Operation: Update
 // RESTful Operation: Update an existing resource (update a pet)
